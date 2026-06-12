@@ -1,0 +1,283 @@
+"table_name","column_name","data_type","is_nullable","column_default"
+"audit_logs","id","bigint","NO","nextval('audit_logs_id_seq'::regclass)"
+"audit_logs","entity_type","USER-DEFINED","YES",NULL
+"audit_logs","entity_id","bigint","YES",NULL
+"audit_logs","action","USER-DEFINED","YES",NULL
+"audit_logs","old_values","jsonb","YES",NULL
+"audit_logs","new_values","jsonb","YES",NULL
+"audit_logs","created_at","timestamp with time zone","YES","now()"
+"audit_logs","user_id","bigint","YES",NULL
+"audit_logs","description","text","YES",NULL
+"audit_logs","ip_address","character varying","YES",NULL
+"audit_logs","user_agent","text","YES",NULL
+"conversation_members","id","integer","NO","nextval('conversation_members_id_seq'::regclass)"
+"conversation_members","conversation_id","integer","YES",NULL
+"conversation_members","user_id","integer","YES",NULL
+"conversation_members","role","character varying","YES","'member'::character varying"
+"conversation_members","is_active","boolean","YES","false"
+"conversation_members","unread_count","integer","YES","0"
+"conversations","id","integer","NO","nextval('conversations_id_seq'::regclass)"
+"conversations","task_id","integer","YES",NULL
+"conversations","created_by","integer","YES",NULL
+"conversations","type","text","YES","'task'::text"
+"conversations","created_at","timestamp without time zone","YES","CURRENT_TIMESTAMP"
+"conversations","title","text","YES",NULL
+"conversations","scope","text","YES",NULL
+"document_priorities","id","integer","NO","nextval('document_priorities_id_seq'::regclass)"
+"document_priorities","code","character varying","NO",NULL
+"document_priorities","name","character varying","NO",NULL
+"document_security_levels","id","integer","NO","nextval('document_security_levels_id_seq'::regclass)"
+"document_security_levels","code","character varying","NO",NULL
+"document_security_levels","name","character varying","NO",NULL
+"document_source_levels","id","integer","NO","nextval('document_source_levels_id_seq'::regclass)"
+"document_source_levels","code","character varying","NO",NULL
+"document_source_levels","name","character varying","NO",NULL
+"document_source_levels","description","text","YES",NULL
+"document_types","id","integer","NO","nextval('document_types_id_seq'::regclass)"
+"document_types","code","character varying","YES",NULL
+"document_types","name","character varying","NO",NULL
+"document_types","priority_weight","integer","YES","10"
+"documents","id","integer","NO","nextval('documents_id_seq'::regclass)"
+"documents","so_ky_hieu","character varying","YES",NULL
+"documents","tieu_de","text","NO",NULL
+"documents","trich_yeu","text","YES",NULL
+"documents","loai_van_ban_id","integer","YES",NULL
+"documents","muc_do_uu_tien","character varying","YES",NULL
+"documents","muc_do_bao_mat","character varying","YES",NULL
+"documents","don_vi_ban_hanh","text","YES",NULL
+"documents","nguoi_ky","text","YES",NULL
+"documents","ngay_ban_hanh","date","YES",NULL
+"documents","ngay_nhan","date","YES",NULL
+"documents","han_xu_ly","date","YES",NULL
+"documents","file_name","text","YES",NULL
+"documents","file_path","text","YES",NULL
+"documents","file_type","text","YES",NULL
+"documents","created_by","integer","YES",NULL
+"documents","unit_id","integer","YES",NULL
+"documents","status","character varying","YES","'moi'::character varying"
+"documents","created_at","timestamp without time zone","YES","now()"
+"documents","updated_at","timestamp without time zone","YES","now()"
+"documents","deleted_at","timestamp without time zone","YES",NULL
+"documents","cap_ban_hanh","character varying","YES",NULL
+"documents","workflow_status","character varying","YES","'draft'::character varying"
+"documents","office_reviewer_id","integer","YES",NULL
+"documents","office_reviewed_at","timestamp without time zone","YES",NULL
+"documents","office_review_note","text","YES",NULL
+"documents","sent_to_leader_at","timestamp without time zone","YES",NULL
+"documents","submitted_to_office_at","timestamp without time zone","YES",NULL
+"documents","leader_received_at","timestamp without time zone","YES",NULL
+"employee_periodic_report_items","id","integer","NO","nextval('employee_periodic_report_items_id_seq'::regclass)"
+"employee_periodic_report_items","report_id","integer","NO",NULL
+"employee_periodic_report_items","task_id","integer","NO",NULL
+"employee_periodic_report_items","subtask_id","integer","NO",NULL
+"employee_periodic_report_items","subtask_title","text","YES",NULL
+"employee_periodic_report_items","subtask_status","character varying","YES",NULL
+"employee_periodic_report_items","progress_snapshot","integer","YES","0"
+"employee_periodic_report_items","note","text","YES",NULL
+"employee_periodic_report_items","created_at","timestamp without time zone","YES","now()"
+"employee_periodic_reports","id","integer","NO","nextval('employee_periodic_reports_id_seq'::regclass)"
+"employee_periodic_reports","unit_id","integer","NO",NULL
+"employee_periodic_reports","reporter_id","integer","NO",NULL
+"employee_periodic_reports","period_key","character varying","NO",NULL
+"employee_periodic_reports","period_start","date","NO",NULL
+"employee_periodic_reports","period_end","date","NO",NULL
+"employee_periodic_reports","han_bao_cao","date","YES",NULL
+"employee_periodic_reports","noi_dung","text","NO",NULL
+"employee_periodic_reports","kho_khan","text","YES",NULL
+"employee_periodic_reports","de_xuat","text","YES",NULL
+"employee_periodic_reports","tong_phan_viec","integer","YES","0"
+"employee_periodic_reports","so_hoan_thanh","integer","YES","0"
+"employee_periodic_reports","so_dang_thuc_hien","integer","YES","0"
+"employee_periodic_reports","so_cho_duyet","integer","YES","0"
+"employee_periodic_reports","so_qua_han","integer","YES","0"
+"employee_periodic_reports","ti_le_hoan_thanh","integer","YES","0"
+"employee_periodic_reports","file_name","text","YES",NULL
+"employee_periodic_reports","file_path","text","YES",NULL
+"employee_periodic_reports","file_type","text","YES",NULL
+"employee_periodic_reports","report_status","character varying","YES","'submitted'::character varying"
+"employee_periodic_reports","created_at","timestamp without time zone","YES","now()"
+"employee_periodic_reports","updated_at","timestamp without time zone","YES","now()"
+"message_attachments","id","integer","NO","nextval('message_attachments_id_seq'::regclass)"
+"message_attachments","message_id","integer","YES",NULL
+"message_attachments","file_path","text","NO",NULL
+"messages","id","integer","NO","nextval('messages_id_seq'::regclass)"
+"messages","conversation_id","integer","YES",NULL
+"messages","sender_id","integer","YES",NULL
+"messages","content","text","YES",NULL
+"messages","edited_at","timestamp without time zone","YES",NULL
+"messages","created_at","timestamp without time zone","YES","CURRENT_TIMESTAMP"
+"messages","deleted_at","timestamp without time zone","YES",NULL
+"messages","role","character varying","YES",NULL
+"messages","file_name","text","YES",NULL
+"messages","file_url","text","YES",NULL
+"messages","file_type","text","YES",NULL
+"notifications","id","integer","NO","nextval('notifications_id_seq'::regclass)"
+"notifications","user_id","integer","YES",NULL
+"notifications","type","USER-DEFINED","YES",NULL
+"notifications","title","text","YES",NULL
+"notifications","created_at","timestamp with time zone","YES","now()"
+"notifications","is_read","boolean","YES","false"
+"notifications","task_id","integer","YES",NULL
+"notifications","content","text","YES",NULL
+"notifications","document_id","integer","YES",NULL
+"role_permissions","id","integer","NO","nextval('role_permissions_id_seq'::regclass)"
+"role_permissions","role_id","integer","YES",NULL
+"role_permissions","permission","character varying","YES",NULL
+"roles","id","integer","NO","nextval('roles_id_seq'::regclass)"
+"roles","code","character varying","NO",NULL
+"roles","name","character varying","NO",NULL
+"security_logs","id","integer","NO","nextval('security_logs_id_seq'::regclass)"
+"security_logs","user_id","integer","YES",NULL
+"security_logs","username","character varying","YES",NULL
+"security_logs","action","character varying","NO",NULL
+"security_logs","status","character varying","YES",NULL
+"security_logs","ip_address","character varying","YES",NULL
+"security_logs","user_agent","text","YES",NULL
+"security_logs","message","text","YES",NULL
+"security_logs","created_at","timestamp without time zone","YES","now()"
+"subtask_periodic_reports","id","integer","NO","nextval('subtask_periodic_reports_id_seq'::regclass)"
+"subtask_periodic_reports","subtask_id","integer","NO",NULL
+"subtask_periodic_reports","task_id","integer","NO",NULL
+"subtask_periodic_reports","reporter_id","integer","NO",NULL
+"subtask_periodic_reports","noi_dung","text","NO",NULL
+"subtask_periodic_reports","ti_le_hoan_thanh","integer","YES","0"
+"subtask_periodic_reports","ky_bao_cao_tu","date","YES",NULL
+"subtask_periodic_reports","ky_bao_cao_den","date","YES",NULL
+"subtask_periodic_reports","han_bao_cao","date","YES",NULL
+"subtask_periodic_reports","file_name","text","YES",NULL
+"subtask_periodic_reports","file_path","text","YES",NULL
+"subtask_periodic_reports","file_type","text","YES",NULL
+"subtask_periodic_reports","created_at","timestamp without time zone","YES","now()"
+"subtask_periodic_reports","updated_at","timestamp without time zone","YES","now()"
+"subtask_periodic_reports","period_key","character varying","YES",NULL
+"subtask_periodic_reports","status_snapshot","character varying","YES",NULL
+"subtask_periodic_reports","kho_khan","text","YES",NULL
+"subtask_periodic_reports","de_xuat","text","YES",NULL
+"subtask_periodic_reports","report_status","character varying","YES","'submitted'::character varying"
+"subtasks","id","integer","NO","nextval('subtasks_id_seq'::regclass)"
+"subtasks","task_id","integer","YES",NULL
+"subtasks","assignee_user_id","integer","YES",NULL
+"subtasks","tieu_de","text","YES",NULL
+"subtasks","kpi_phan_tram","integer","YES",NULL
+"subtasks","created_at","timestamp with time zone","YES","now()"
+"subtasks","mo_ta","text","YES",NULL
+"subtasks","han_chot","timestamp without time zone","YES",NULL
+"subtasks","trang_thai","character varying","YES","'cho_nhan_viec'::character varying"
+"subtasks","created_by","integer","YES",NULL
+"subtasks","updated_at","timestamp without time zone","YES","now()"
+"subtasks","noi_dung_nop","text","YES",NULL
+"subtasks","file_name","text","YES",NULL
+"subtasks","file_path","text","YES",NULL
+"subtasks","submitted_at","timestamp without time zone","YES",NULL
+"subtasks","kpi_score","integer","YES",NULL
+"subtasks","file_type","text","YES",NULL
+"subtasks","completed_at","timestamp without time zone","YES",NULL
+"system_settings","id","integer","NO","nextval('system_settings_id_seq'::regclass)"
+"system_settings","key","character varying","NO",NULL
+"system_settings","value","text","YES",NULL
+"system_settings","updated_at","timestamp without time zone","YES","now()"
+"task_approvals","id","integer","NO","nextval('task_approvals_id_seq'::regclass)"
+"task_approvals","task_id","integer","YES",NULL
+"task_approvals","approver_id","integer","YES",NULL
+"task_approvals","quyet_dinh","USER-DEFINED","YES",NULL
+"task_approvals","ghi_chu","text","YES",NULL
+"task_approvals","created_at","timestamp with time zone","YES","now()"
+"task_documents","id","integer","NO","nextval('task_documents_id_seq'::regclass)"
+"task_documents","task_id","integer","YES",NULL
+"task_documents","document_id","integer","YES",NULL
+"task_documents","relation_type","character varying","YES","'dinh_kem'::character varying"
+"task_documents","created_at","timestamp without time zone","YES","now()"
+"task_logs","id","integer","NO","nextval('task_logs_id_seq'::regclass)"
+"task_logs","task_id","integer","YES",NULL
+"task_logs","user_id","integer","YES",NULL
+"task_logs","action","text","YES",NULL
+"task_logs","created_at","timestamp without time zone","YES","now()"
+"task_periodic_report_items","id","integer","NO","nextval('task_periodic_report_items_id_seq'::regclass)"
+"task_periodic_report_items","report_id","integer","NO",NULL
+"task_periodic_report_items","task_id","integer","NO",NULL
+"task_periodic_report_items","task_title","text","YES",NULL
+"task_periodic_report_items","status_snapshot","character varying","YES",NULL
+"task_periodic_report_items","progress_snapshot","integer","YES","0"
+"task_periodic_report_items","deadline_snapshot","timestamp without time zone","YES",NULL
+"task_periodic_report_items","note","text","YES",NULL
+"task_periodic_report_items","created_at","timestamp without time zone","YES","now()"
+"task_periodic_reports","id","integer","NO","nextval('task_periodic_reports_id_seq'::regclass)"
+"task_periodic_reports","task_id","integer","YES",NULL
+"task_periodic_reports","reporter_id","integer","NO",NULL
+"task_periodic_reports","report_type","character varying","YES","'unit_to_leader'::character varying"
+"task_periodic_reports","noi_dung","text","NO",NULL
+"task_periodic_reports","ti_le_hoan_thanh","integer","YES","0"
+"task_periodic_reports","ky_bao_cao_tu","date","YES",NULL
+"task_periodic_reports","ky_bao_cao_den","date","YES",NULL
+"task_periodic_reports","han_bao_cao","date","YES",NULL
+"task_periodic_reports","file_name","text","YES",NULL
+"task_periodic_reports","file_path","text","YES",NULL
+"task_periodic_reports","file_type","text","YES",NULL
+"task_periodic_reports","created_at","timestamp without time zone","YES","now()"
+"task_periodic_reports","updated_at","timestamp without time zone","YES","now()"
+"task_periodic_reports","period_key","character varying","YES",NULL
+"task_periodic_reports","status_snapshot","character varying","YES",NULL
+"task_periodic_reports","kho_khan","text","YES",NULL
+"task_periodic_reports","de_xuat","text","YES",NULL
+"task_periodic_reports","report_status","character varying","YES","'submitted'::character varying"
+"task_periodic_reports","unit_id","integer","YES",NULL
+"task_submissions","id","integer","NO","nextval('task_submissions_id_seq'::regclass)"
+"task_submissions","task_id","integer","YES",NULL
+"task_submissions","submitted_by","integer","YES",NULL
+"task_submissions","noi_dung_tom_tat","text","YES",NULL
+"task_submissions","created_at","timestamp with time zone","YES","now()"
+"task_submissions","file_name","text","YES",NULL
+"task_submissions","file_path","text","YES",NULL
+"task_submissions","file_type","text","YES",NULL
+"task_updates","id","integer","NO","nextval('task_updates_id_seq'::regclass)"
+"task_updates","task_id","integer","YES",NULL
+"task_updates","user_id","integer","YES",NULL
+"task_updates","noi_dung","text","YES",NULL
+"task_updates","trang_thai_sau","text","YES",NULL
+"task_updates","kpi_sau","integer","YES",NULL
+"task_updates","created_at","timestamp with time zone","YES","now()"
+"tasks","id","integer","NO","nextval('tasks_id_seq'::regclass)"
+"tasks","unit_id","integer","YES",NULL
+"tasks","assignee_user_id","integer","YES",NULL
+"tasks","tieu_de","text","NO",NULL
+"tasks","mo_ta","text","YES",NULL
+"tasks","muc_do","USER-DEFINED","YES","'trung_binh'::muc_do_uu_tien"
+"tasks","han_chot","date","YES",NULL
+"tasks","kpi_phan_tram","integer","YES",NULL
+"tasks","che_do_tien_do","USER-DEFINED","YES","'trang_thai'::che_do_tien_do"
+"tasks","created_at","timestamp with time zone","YES","now()"
+"tasks","updated_at","timestamp with time zone","YES","now()"
+"tasks","deleted_at","timestamp with time zone","YES",NULL
+"tasks","lanh_dao_id","integer","YES",NULL
+"tasks","signed_by","integer","YES",NULL
+"tasks","signed_at","timestamp without time zone","YES",NULL
+"tasks","signature_type","character varying","YES",NULL
+"tasks","status","character varying","YES","'pending'::character varying"
+"tasks","trang_thai_id","integer","YES",NULL
+"tasks","chu_ky_bao_cao","character varying","YES","'mot_lan'::character varying"
+"tasks","priority_score","integer","YES","0"
+"tasks","priority_level","character varying","YES","'binh_thuong'::character varying"
+"tasks","priority_reason","text","YES",NULL
+"tasks","completed_at","timestamp without time zone","YES",NULL
+"trang_thai_task","id","integer","NO","nextval('trang_thai_task_id_seq'::regclass)"
+"trang_thai_task","code","character varying","NO",NULL
+"trang_thai_task","name","character varying","NO",NULL
+"units","id","integer","NO","nextval('units_id_seq'::regclass)"
+"units","name","character varying","NO",NULL
+"units","created_at","timestamp without time zone","YES","now()"
+"units","updated_at","timestamp without time zone","YES",NULL
+"units","deleted_at","timestamp without time zone","YES",NULL
+"users","id","integer","NO","nextval('users_id_seq'::regclass)"
+"users","username","character varying","NO",NULL
+"users","email","character varying","YES",NULL
+"users","password","text","NO",NULL
+"users","full_name","character varying","YES",NULL
+"users","role_id","integer","YES",NULL
+"users","is_active","boolean","YES","true"
+"users","created_at","timestamp with time zone","YES","now()"
+"users","updated_at","timestamp with time zone","YES","now()"
+"users","deleted_at","timestamp with time zone","YES",NULL
+"users","chuc_vu","character varying","YES",NULL
+"users","unit_id","integer","NO",NULL
+"users","failed_login_attempts","integer","YES","0"
+"users","locked_until","timestamp without time zone","YES",NULL

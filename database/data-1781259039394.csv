@@ -1,0 +1,10 @@
+"id","username","email","password","full_name","role_id","is_active","created_at","updated_at","deleted_at","chuc_vu","unit_id","failed_login_attempts","locked_until"
+12,"user01",NULL,"$2b$10$/jxVkWuGhsHE/xxDQWTqK.g0kj/vV/2AbNtOuODOx/npTEEGNL6L6","chanvanphong",3,True,"2026-06-06 11:46:45.368237+07","2026-06-06 16:23:14.702725+07",NULL,NULL,2,0,NULL
+1,"user1",NULL,"$2b$10$Q/VSrpVHOQOSKVIA32EV9eJXN7rK3jPT9srF3oQIJOYPgF.bf3wrS",NULL,1,True,"2026-04-13 21:24:28.026572+07","2026-06-07 00:45:36.675526+07",NULL,"nhan_vien",1,0,NULL
+3,"truongban",NULL,"$2b$10$WxQhSDXi92e3LtZW5xvKDOI1JMMgKs7sbGNCmpG5qPvTAu0nPa86m",NULL,3,True,"2026-04-21 15:10:20.780937+07","2026-06-11 02:22:06.90559+07",NULL,NULL,1,0,NULL
+7,"nhanvien1",NULL,"$2b$10$.NjidLfYWRs3iX5Y1WzRsu8.E1.5GW9fbU.GOm3UhwMtizldwJG0G","nguyễn văn A",4,True,"2026-05-15 14:31:03.818296+07","2026-06-11 02:22:36.899073+07",NULL,NULL,1,0,NULL
+11,"duytug10",NULL,"$2b$10$qaD.MzXxdtK84Ghz2DMjyOnGrSykPx4N59Vrx/Gcf2kFyM5Len6DS","duytug",1,True,"2026-05-31 21:32:27.653984+07","2026-05-31 21:33:53.745874+07",NULL,NULL,1,0,NULL
+5,"admin",NULL,"$2b$10$.QwTYtDA538spzmknn7X5uK23IBHO6GboKbqEfOKMuYZcTQUnEl1W","Admin",4,True,"2026-05-04 17:36:18.582374+07","2026-06-12 12:33:08.119893+07",NULL,NULL,1,0,NULL
+10,"ruytugg",NULL,"$2b$10$xC28HS6hjMELiwkoJ5xZtu4PJHrmAFnkmu0r1aIM7xhhhgeCw.wdm","Duy Tùng",1,True,"2026-05-31 17:18:08.145459+07","2026-06-12 12:49:49.968384+07",NULL,NULL,1,0,NULL
+9,"vanthu",NULL,"$2b$10$WxQhSDXi92e3LtZW5xvKDOI1JMMgKs7sbGNCmpG5qPvTAu0nPa86m","Văn thư",5,True,"2026-05-21 10:10:08.951807+07","2026-06-12 14:31:55.867432+07",NULL,NULL,2,0,NULL
+2,"duytung1401","dtung1004@gmail.com","$2b$10$solVDjpGaoGKgyokXyFliewQXQ3wRPbqX82ovyRLBHHTlY4feyXoW","DDDT",2,True,"2026-04-18 20:29:40.027221+07","2026-06-12 16:10:06.458063+07",NULL,"chu_tich",5,0,NULL
