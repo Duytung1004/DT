@@ -787,6 +787,31 @@ export default function Archives() {
           <strong>Trạng thái:</strong>
           <p>{selectedArchive.status_name}</p>
         </div>
+        <div>
+  <strong>Tài liệu đính kèm:</strong>
+
+  {selectedArchive.file_path ? (
+    <button
+      onClick={() => openFile(selectedArchive.file_path)}
+      className={`
+        mt-2 px-4 py-2 rounded-xl
+        flex items-center gap-2
+        ${
+          isDark
+            ? "bg-blue-600 hover:bg-blue-500 text-white"
+            : "bg-blue-500 hover:bg-blue-600 text-white"
+        }
+      `}
+    >
+      <Paperclip size={16} />
+      {selectedArchive.file_name || "Mở file đính kèm"}
+    </button>
+  ) : (
+    <p className="opacity-60 mt-1">
+      Không có file đính kèm
+    </p>
+  )}
+</div>
       </div>
     </div>
   </div>
