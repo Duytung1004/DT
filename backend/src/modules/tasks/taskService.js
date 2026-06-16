@@ -616,7 +616,6 @@ exports.createTask = async (data, user) => {
     throw new Error("Không có quyền tạo nhiệm vụ");
   }
   const client = await pool.connect();
-
   try {
     await client.query("BEGIN");
 
@@ -628,7 +627,6 @@ exports.createTask = async (data, user) => {
   document_id,
   chu_ky_bao_cao,
 } = data;
-
 if (
   document_id &&
   !user.permissions.includes("document:create_task")
@@ -640,25 +638,18 @@ if (
   user.role ===
   "truong_phong"
 ) {
-
   data.unit_id =
     user.unit_id;
-
 }
-
-
 // BASIC VALIDATE
 if (
   !tieu_de ||
   !han_chot
 ) {
-
   throw new Error(
     "Thiếu thông tin nhiệm vụ"
   );
-
 }
-
 // LEADER MUST CHOOSE UNIT
 if (
   user.role ===
@@ -674,10 +665,6 @@ if (
   }
 
 }
-
-
-
-
   // 🔥 lấy status mặc định
 const statusResult =
   await client.query(
@@ -688,7 +675,6 @@ const statusResult =
     'cho_xac_nhan_don_vi'
     `
   );
-
 const statusId =
   statusResult.rows[0].id;
 

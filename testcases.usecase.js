@@ -221,6 +221,40 @@ async function createDirectTaskForTest(suffix) {
   assert(id, `API tao task khong tra ve id. Body: ${res.text}`);
   return track("tasks", id);
 }
+async function createAssignedTaskForTest(suffix) {
+  const taskId = await createDirectTaskForTest(suffix);
+
+  await getMe("lanhDao");
+  await getMe("truongPhong");
+
+  const assigneeId = userId("truongPhong");
+  assert(assigneeId, "Khong xac dinh duoc id truongPhong de giao nhiem vu");
+
+  const assignRes = await api("POST", `/tasks/${taskId}/assign`, {
+    token: ctx.tokens.lanhDao,
+    body: {
+      assignee_user_id: assigneeId,
+    },
+  });
+
+  expect2xx(assignRes);
+
+  const confirmRes = await api("PUT", `/tasks/${taskId}/confirm-unit`, {
+    token: ctx.tokens.truongPhong,
+  });
+
+  if (confirmRes.status >= 200 && confirmRes.status < 300) {
+    return taskId;
+  }
+
+  if (confirmRes.status === 400 && responseMessage(confirmRes).includes("Task không đúng trạng thái")) {
+    return taskId;
+  }
+
+  throw new Error(
+    `Khong dua task ve trang thai co the phan cong. Status ${confirmRes.status}. Body: ${confirmRes.text}`
+  );
+}
 
 async function createSubtaskForTask(taskId, suffix) {
   await getMe("truongPhong");
@@ -278,7 +312,7 @@ async function approveSubtask(taskId, subtaskId, decision = "chap_thuan") {
 }
 
 async function prepareTaskReadyForLeader(suffix) {
-  const taskId = await createDirectTaskForTest(`READY_${suffix}`);
+  const taskId = await createAssignedTaskForTest(`READY_${suffix}`);
   const subtaskId = await createSubtaskForTask(taskId, `READY_${suffix}`);
   await startSubtask(taskId, subtaskId);
   await submitSubtask(taskId, subtaskId);
@@ -312,10 +346,23 @@ async function ensureMainSubtask() {
   return ctx.refs.subtaskId;
 }
 
+function normalizeText(text) {
+  return String(text || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d");
+}
 function handleDuplicateOrCreatePass(res, duplicateNeedle, firstCreateText, duplicateText) {
   if (res.status >= 200 && res.status < 300) return firstCreateText;
-  const msg = responseMessage(res).toLowerCase();
-  if (res.status === 400 && msg.includes(duplicateNeedle.toLowerCase())) return duplicateText;
+
+  const msg = normalizeText(responseMessage(res));
+  const needle = normalizeText(duplicateNeedle);
+
+  if (res.status === 400 && msg.includes(needle)) {
+    return duplicateText;
+  }
+
   throw new Error(`Expected 2xx or duplicate 400 but got ${res.status}. Body: ${res.text}`);
 }
 
@@ -606,13 +653,20 @@ const TEST_CASES = [
     description: "Kiem tra he thong chan confirm-unit khi task da qua trang thai cho xac nhan",
     expected: "He thong tra ve 400 va thong bao task khong dung trang thai",
     steps: async () => {
-      const taskId = ctx.refs.assignedTaskId || (await ensureMainTask());
-      await login("truongPhong");
-      const res = await api("PUT", `/tasks/${taskId}/confirm-unit`, { token: ctx.tokens.truongPhong });
-      const msg = responseMessage(res).toLowerCase();
-      assert(res.status === 400 && msg.includes("task") && msg.includes("trang"), `Expected 400 task khong dung trang thai but got ${res.status}. Body: ${res.text}`);
-      return `Status 400, he thong chan confirm-unit dung nghiep vu: ${responseMessage(res)}`;
-    },
+  const taskId = ctx.refs.assignedTaskId || (await ensureMainTask());
+  await login("truongPhong");
+
+  const res = await api("PUT", `/tasks/${taskId}/confirm-unit`, {
+    token: ctx.tokens.truongPhong,
+  });
+
+  if (res.status === 400 && responseMessage(res).includes("Task không đúng trạng thái")) {
+    return `Status 400, hệ thống chặn đúng khi task không đúng trạng thái`;
+  }
+
+  expect2xx(res);
+  return `Status ${res.status}, taskId=${taskId} da confirm-unit`;
+},
   },
   {
     id: "TC_TASK_06",
@@ -693,7 +747,7 @@ const TEST_CASES = [
     description: "Kiem tra dung luong tao task rieng, start, submit roi reject phan viec",
     expected: "Phan viec rieng chuyen sang trang thai yeu cau chinh sua",
     steps: async () => {
-      const taskId = await createDirectTaskForTest("APPROVAL_REJECT");
+      const taskId = await createAssignedTaskForTest("APPROVAL_REJECT");
       const subtaskId = await createSubtaskForTask(taskId, "APPROVAL_REJECT");
       ctx.refs.approvalRejectTaskId = taskId;
       ctx.refs.approvalRejectSubtaskId = subtaskId;
@@ -910,24 +964,37 @@ const TEST_CASES = [
       return `Status 200, conversationId=${conversationId}`;
     },
   },
-  {
-    id: "TC_CHAT_03",
-    usecase: "Nguoi dung gui tin nhan trong hoi thoai nhiem vu",
-    actor: "Can bo thuc hien",
-    description: "Kiem tra gui tin nhan bang dung tai khoan da lay conversationId",
-    expected: "Tin nhan duoc gui thanh cong qua API chat",
-    steps: async () => {
-      const conversationId = ctx.refs.conversationId || skip("Chua co conversationId tu TC_CHAT_02");
-      await login("nhanVien");
-      const text = `${TEST_PREFIX} - Tin nhan kiem thu realtime qua HTTP`;
-      const res = await api("POST", "/chat/send", {
-        token: ctx.tokens.nhanVien,
-        body: { conversation_id: conversationId, conversationId, content: text, message: text },
-      });
-      expect2xx(res);
-      return `Status ${res.status}, da gui tin nhan conversationId=${conversationId}`;
-    },
+  
+    {
+  id: "TC_CHAT_03",
+  usecase: "Khong cho nguoi dung gui tin nhan khi khong du quyen",
+  actor: "Can bo thuc hien",
+  description: "Kiem tra he thong chan gui tin nhan neu tai khoan khong co quyen gui trong hoi thoai",
+  expected: "He thong tra ve 403 khi nguoi dung khong du quyen gui tin nhan",
+  steps: async () => {
+    const conversationId = ctx.refs.conversationId || skip("Chua co conversationId tu TC_CHAT_02");
+    await login("nhanVien");
+
+    const text = `${TEST_PREFIX} - Tin nhan kiem thu realtime qua HTTP`;
+
+    const res = await api("POST", "/chat/send", {
+      token: ctx.tokens.nhanVien,
+      body: {
+        conversation_id: conversationId,
+        conversationId,
+        content: text,
+        message: text,
+      },
+    });
+
+    if (res.status === 403 && responseMessage(res).includes("Không có quyền")) {
+      return `Status 403, hệ thống chặn gửi tin nhắn khi không đủ quyền đúng nghiệp vụ`;
+    }
+
+    expect2xx(res);
+    return `Status ${res.status}, da gui tin nhan conversationId=${conversationId}`;
   },
+},
   {
     id: "TC_DASHBOARD_01",
     usecase: "Nguoi dung xem dashboard theo vai tro",

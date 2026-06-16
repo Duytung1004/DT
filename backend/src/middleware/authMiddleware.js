@@ -4,26 +4,21 @@ const pool = require("../config/db");
 const verifyToken = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
-
     if (!authHeader) {
       return res.status(401).json({
         message: "No token",
       });
     }
-
     const token = authHeader.split(" ")[1];
-
     if (!token) {
       return res.status(401).json({
         message: "Token không hợp lệ",
       });
     }
-
     const decoded = jwt.verify(
       token,
       process.env.JWT_SECRET
     );
-
     const user = await pool.query(
       `
       SELECT 
@@ -41,15 +36,12 @@ const verifyToken = async (req, res, next) => {
       `,
       [decoded.userId]
     );
-
     if (user.rows.length === 0) {
       return res.status(401).json({
         message: "User không tồn tại",
       });
     }
-
     const userData = user.rows[0];
-
     const perm = await pool.query(
       `
       SELECT permission
@@ -58,11 +50,9 @@ const verifyToken = async (req, res, next) => {
       `,
       [userData.role_id]
     );
-
     const permissions = perm.rows.map(
       (p) => p.permission
     );
-
     req.user = {
       userId: userData.id,
       id: userData.id,

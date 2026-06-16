@@ -5,47 +5,37 @@ const pool = require("../../config/db"); // 👈 thêm
 exports.sendMessage = async (req, res) => {
   try {
     const { conversation_id, content } = req.body;
-
-    // 🔥 CHECK QUYỀN
+    // CHECK QUYỀN
     const isMember = await chatService.checkUserInConversation(
       conversation_id,
       req.user.userId
     );
-
     if (!isMember) {
   return res.status(403).json({
     message: "Không có quyền",
   });
 }
-
-// 🔥 CHECK ĐÚNG PHÒNG CHAT TASK
+// CHECK ĐÚNG PHÒNG CHAT TASK
 const isTaskConversation =
   await chatService.checkTaskConversation(
     conversation_id
   );
-
 if (!isTaskConversation) {
   return res.status(400).json({
     message: "Đây không phải phòng chat nhiệm vụ",
   });
 }
-
-// 🔥 LƯU MESSAGE
+//  LƯU MESSAGE
 const message = await chatService.createMessage(
   conversation_id,
   req.user.userId,
   content
 );
-
-    // 🔥 REALTIME CHAT
+    // REALTIME CHAT
     const io = getIO();
     io.to(`room_${conversation_id}`).emit("receive_message", message);
-
-    // =========================
-    // 🔥 THÊM NOTIFICATION
-    // =========================
-
-    // 1. lấy member
+    // THÊM NOTIFICATION=
+    // 1 lấy member
     const members = await pool.query(
   `
   SELECT user_id
