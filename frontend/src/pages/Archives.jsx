@@ -110,8 +110,9 @@ export default function Archives() {
             task.status_code ||
             "Hoàn thành",
           assignee_name: task.assignee_name || "Chưa rõ",
-          file_path: null,
-          file_name: null,
+          documents: task.documents || [],
+          file_path: task.documents?.[0]?.file_path || null,
+          file_name: task.documents?.[0]?.file_name || null,
         }));
 
       const documentArchives = documents
