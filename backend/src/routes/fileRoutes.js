@@ -34,6 +34,15 @@ router.get("/view", (req, res) => {
 
     const absolutePath = getAbsoluteFilePath(filePath);
 
+    console.log("========== FILE DEBUG ==========");
+    console.log("FILE PATH:", filePath);
+    console.log("ABSOLUTE PATH:", absolutePath);
+    console.log(
+      "EXISTS:",
+      fs.existsSync(absolutePath)
+    );
+    console.log("===============================");
+
     if (!fs.existsSync(absolutePath)) {
       return res.status(404).json({
         message: "File không tồn tại",

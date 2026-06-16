@@ -18,6 +18,22 @@ const formatDate = (value) => {
   return new Date(value).toLocaleDateString("vi-VN");
 };
 
+const getStatusLabel = (status) => {
+  switch (status) {
+    case "draft":
+      return "Bản nháp";
+
+    case "task_created":
+      return "Đã tạo nhiệm vụ";
+
+    case "hoan_thanh":
+      return "Hoàn thành";
+
+    default:
+      return status;
+  }
+};
+
 const getMonthKey = (value) => {
   if (!value) return "Không rõ thời gian";
 
@@ -262,14 +278,13 @@ export default function Archives() {
   }, [records]);
 
   const openFile = (filePath) => {
-    if (!filePath) return;
+  if (!filePath) return;
 
-    const baseURL =
-      import.meta.env.VITE_API_URL?.replace("/api", "") ||
-      "http://localhost:3000";
-
-    window.open(`${baseURL}${filePath}`, "_blank");
-  };
+  window.open(
+    `https://dt-us.onrender.com${filePath}`,
+    "_blank"
+  );
+};
 
   const getFolderIcon = (folder) => {
     const active =
@@ -785,9 +800,9 @@ export default function Archives() {
         </div>
 
         <div>
-          <strong>Trạng thái:</strong>
-          <p>{selectedArchive.status_name}</p>
-        </div>
+  <strong>Trạng thái:</strong>
+  <p>{getStatusLabel(selectedArchive.status_name)}</p>
+</div>
         <div>
   <strong>Tài liệu đính kèm:</strong>
 
