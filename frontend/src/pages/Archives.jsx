@@ -40,7 +40,7 @@ export default function Archives() {
 
   const [keyword, setKeyword] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const [selectedArchive, setSelectedArchive] = useState(null);
   const [theme, setTheme] = useState(
     localStorage.getItem("theme") || "light"
   );
@@ -706,21 +706,23 @@ export default function Archives() {
                         </button>
                       )}
 
-                      <div
+                      <button
+                        onClick={() => setSelectedArchive(item)}
                         className={`
                           px-4 py-2
                           rounded-2xl
                           text-sm
                           font-semibold
+                          transition
                           ${
                             isDark
-                              ? "bg-blue-600 text-white"
-                              : "bg-blue-500 text-white"
+                              ? "bg-blue-600 hover:bg-blue-500 text-white"
+                              : "bg-blue-500 hover:bg-blue-600 text-white"
                           }
                         `}
                       >
                         Hồ sơ #{item.raw_id}
-                      </div>
+                    </button>
                     </div>
                   </div>
                 ))}
@@ -729,6 +731,66 @@ export default function Archives() {
           </div>
         </div>
       </div>
+      {selectedArchive && (
+  <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+    <div
+      className={`
+        w-full max-w-3xl rounded-3xl p-6
+        ${isDark ? "bg-slate-900 text-white" : "bg-white"}
+      `}
+    >
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-xl font-bold">
+          Chi tiết hồ sơ #{selectedArchive.raw_id}
+        </h2>
+
+        <button
+          onClick={() => setSelectedArchive(null)}
+          className="px-3 py-2 rounded-xl bg-red-500 text-white"
+        >
+          Đóng
+        </button>
+      </div>
+
+      <div className="space-y-4">
+        <div>
+          <strong>Tiêu đề:</strong>
+          <p>{selectedArchive.title}</p>
+        </div>
+
+        <div>
+          <strong>Mô tả:</strong>
+          <p>{selectedArchive.description || "Không có mô tả"}</p>
+        </div>
+
+        <div>
+          <strong>Loại hồ sơ:</strong>
+          <p>{selectedArchive.type_label}</p>
+        </div>
+
+        <div>
+          <strong>Phòng ban:</strong>
+          <p>{selectedArchive.unit_name}</p>
+        </div>
+
+        <div>
+          <strong>Người phụ trách:</strong>
+          <p>{selectedArchive.assignee_name}</p>
+        </div>
+
+        <div>
+          <strong>Ngày lưu trữ:</strong>
+          <p>{formatDate(selectedArchive.archived_at)}</p>
+        </div>
+
+        <div>
+          <strong>Trạng thái:</strong>
+          <p>{selectedArchive.status_name}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }
