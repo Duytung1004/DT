@@ -636,15 +636,6 @@ if (file) {
 
   setInputAI("");
 
-  // SHOW THINKING
-  setMessages((prev) => [
-    ...prev,
-    {
-      role: "assistant",
-      content: "🤖 AI đang suy nghĩ...",
-    },
-  ]);
-
   const res = await api.post(
     "/ai/from-file",
     formData,
@@ -655,28 +646,13 @@ if (file) {
     }
   );
 
-  // REPLACE THINKING
-  setMessages((prev) => {
-    const updated = [...prev];
-
-    // Cập nhật file user từ blob URL sang URL thật của backend
-    for (let i = updated.length - 1; i >= 0; i--) {
-      if (updated[i].role === "user" && updated[i].file) {
-        updated[i] = {
-          ...updated[i],
-          file: res.data.file,
-        };
-        break;
-      }
-    }
-
-    updated[updated.length - 1] = {
-  role: "assistant",
-  content: res.data.result,
-};
-
-    return updated;
-  });
+  setMessages((prev) => [
+  ...prev,
+  {
+    role: "assistant",
+    content: res.data.result,
+  },
+]);
 
   await loadConversations();
 
@@ -707,14 +683,7 @@ if (file) {
 
       setInputAI("");
 
-      // SHOW THINKING
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          content: "🤖 AI đang suy nghĩ...",
-        },
-      ]);
+      
 
       const res = await api.post(
         "/ai/chat",
@@ -726,20 +695,15 @@ if (file) {
       );
 
       // REPLACE THINKING
-      setMessages((prev) => {
-
-        const updated = [...prev];
-
-        updated[updated.length - 1] = {
-  role: "assistant",
-  content: res.data.reply,
-  sources: res.data.sources,
-  isAnswered: res.data.isAnswered,
-};
-
-        return updated;
-
-      });
+      setMessages((prev) => [
+  ...prev,
+  {
+    role: "assistant",
+    content: res.data.reply,
+    sources: res.data.sources,
+    isAnswered: res.data.isAnswered,
+  },
+]);
       await loadConversations();
     }
 
