@@ -5,9 +5,9 @@ const cors = require("cors");
 const path = require("path");
 const app = express();
 
-// 🔥 CORS PHẢI ĐỨNG TRƯỚC
+// 🔥 Dùng biến môi trường cho origin để linh hoạt giữa localhost và Vercel
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: process.env.FRONTEND_URL || "http://localhost:5173",
   credentials: true
 }));
 
