@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const socket = io("https://task-management-backend-0624.onrender.com", {
+const socket = io("https://dt-us.onrender.com", {
   transports: ["websocket", "polling"],
   reconnection: true,
   reconnectionAttempts: 10,
