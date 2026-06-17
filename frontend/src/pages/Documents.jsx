@@ -413,7 +413,7 @@ const filteredDocuments = documents.filter((doc) => {
   );
 });
 const getViewUrl = (filePath, fileName) => {
-  return `http://localhost:3000/api/files/view?path=${encodeURIComponent(
+  return `https://dt-us.onrender.com/api/files/view?path=${encodeURIComponent(
     filePath
   )}&name=${encodeURIComponent(
     fixVietnameseFileName(fileName || "file")
