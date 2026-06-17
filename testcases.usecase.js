@@ -11,7 +11,7 @@
  */
 
 const CONFIG = {
-  baseUrl: "http://localhost:3000/api",
+  baseUrl: "${import.meta.env.VITE_API_URL}/api",
   accounts: {
     admin: { username: "ruytugg", password: "Duytung1004" },
     vanThu: { username: "vanthu", password: "123456" },

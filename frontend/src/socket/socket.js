@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const socket = io("https://dt-us.onrender.com", {
+const socket = io("${import.meta.env.VITE_API_URL}", {
   transports: ["websocket", "polling"],
   reconnection: true,
   reconnectionAttempts: 10,

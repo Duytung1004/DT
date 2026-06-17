@@ -413,7 +413,7 @@ const filteredDocuments = documents.filter((doc) => {
   );
 });
 const getViewUrl = (filePath, fileName) => {
-  return `https://dt-us.onrender.com/api/files/view?path=${encodeURIComponent(
+  return `${import.meta.env.VITE_API_URL}/api/files/view?path=${encodeURIComponent(
     filePath
   )}&name=${encodeURIComponent(
     fixVietnameseFileName(fileName || "file")

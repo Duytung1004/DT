@@ -281,7 +281,7 @@ export default function Archives() {
   if (!filePath) return;
 
   window.open(
-    `https://dt-us.onrender.com${filePath}`,
+    `${import.meta.env.VITE_API_URL}${filePath}`,
     "_blank"
   );
 };

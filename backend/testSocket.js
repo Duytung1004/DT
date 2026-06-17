@@ -1,7 +1,7 @@
 const { io } = require("socket.io-client");
 
 // 🔥 đổi port nếu cần
-const socket = io("http://localhost:3000");
+const socket = io("${import.meta.env.VITE_API_URL}");
 
 // 👉 giả lập user 2 (người nhận)
 const userId = 2;

@@ -528,7 +528,7 @@ const inputClass = `
       </p>
 
       <a
-        href={`http://localhost:3000${document.file_path}`}
+        href={`${import.meta.env.VITE_API_URL}${document.file_path}`}
         target="_blank"
         rel="noreferrer"
         className={`text-sm hover:underline ${

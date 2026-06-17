@@ -774,7 +774,7 @@ const getFileOpenUrl = (url) => {
     return url;
   }
 
-  return `http://localhost:3000${url}`;
+  return `${import.meta.env.VITE_API_URL}${url}`;
 };
 
 const getFileDownloadUrl = (file) => {
@@ -786,14 +786,14 @@ const getFileDownloadUrl = (file) => {
 
   const fileName = file.url.split("/").pop();
 
-  return `http://localhost:3000/api/ai/download/${encodeURIComponent(
+  return `${import.meta.env.VITE_API_URL}/api/ai/download/${encodeURIComponent(
     fileName
   )}`;
 };
 const getDocumentViewUrl = (filePath, fileName) => {
   if (!filePath) return "#";
 
-  return `http://localhost:3000/api/files/view?path=${encodeURIComponent(
+  return `${import.meta.env.VITE_API_URL}/api/files/view?path=${encodeURIComponent(
     filePath
   )}&name=${encodeURIComponent(
     fixVietnameseFileName(fileName || "van-ban")
@@ -802,7 +802,7 @@ const getDocumentViewUrl = (filePath, fileName) => {
 const getDocumentDownloadUrl = (filePath, fileName) => {
   if (!filePath) return "#";
 
-  return `http://localhost:3000/api/files/download?path=${encodeURIComponent(
+  return `${import.meta.env.VITE_API_URL}/api/files/download?path=${encodeURIComponent(
     filePath
   )}&name=${encodeURIComponent(
     fixVietnameseFileName(fileName || "van-ban")
