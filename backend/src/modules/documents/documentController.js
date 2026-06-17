@@ -47,6 +47,9 @@ exports.getDocumentById = async (req, res) => {
 // =======================
 exports.createDocument = async (req, res) => {
   try {
+    console.log("REQ.FILE =", req.file);
+    console.log("REQ.BODY =", req.body);
+
     const document =
       await documentService.createDocument(
         req.body,
