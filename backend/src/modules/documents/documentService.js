@@ -390,7 +390,7 @@ const fileName = file
   ? safeFileName(decodeFileName(file.originalname))
   : null;
 const filePath = file
-  ? `/uploads/documents/${file.filename}`
+  ? `/uploads/${file.filename}`
   : null;
 
 const fileType = file
@@ -509,8 +509,8 @@ if (!editableStatuses.includes(currentDocument.workflow_status)) {
     : null;
 
   const filePath = file
-    ? `/uploads/documents/${file.filename}`
-    : null;
+  ? `/uploads/${file.filename}`
+  : null;
 
   const fileType = file
     ? file.mimetype

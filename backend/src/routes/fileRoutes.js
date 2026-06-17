@@ -7,10 +7,9 @@ const fs = require("fs");
 // BUILD SAFE FILE PATH
 // =======================
 const getAbsoluteFilePath = (filePath) => {
-  const safeRelativePath = filePath.replace(
-    /^\/uploads\//,
-    ""
-  );
+  const safeRelativePath = filePath
+  .replace(/^\/uploads\/documents\//, "")
+  .replace(/^\/uploads\//, "");
 
   return path.join(
     __dirname,
