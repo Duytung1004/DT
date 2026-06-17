@@ -509,9 +509,8 @@ if (!editableStatuses.includes(currentDocument.workflow_status)) {
     : null;
 
   const filePath = file
-  ? `/uploads/${file.filename}`
+  ? `/uploads/documents/${file.filename}`
   : null;
-
   const fileType = file
     ? file.mimetype
     : null;
