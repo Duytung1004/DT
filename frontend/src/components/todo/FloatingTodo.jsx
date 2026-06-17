@@ -514,8 +514,9 @@ useEffect(() => {
             backdrop-blur-sm
             z-[10000]
             flex
-            items-center
+            items-start
             justify-center
+            pt-4
             px-4
           "
           onClick={() => setTodoOpen(false)}
@@ -524,11 +525,13 @@ useEffect(() => {
             className={`
               w-[520px]
               max-w-[95vw]
-              max-h-[82vh]
+              h-[85vh] md:h-[82vh]
               rounded-[34px]
               shadow-2xl
               overflow-hidden
               animate-fadeIn
+              flex
+              flex-col
 
               ${
                 isDark
@@ -605,9 +608,10 @@ useEffect(() => {
             {/* BODY */}
             <div
               className={`
+                flex-1
                 p-5
+                pr-3
                 overflow-y-auto
-                max-h-[56vh]
                 ${
                   isDark ? "bg-slate-900" : "bg-white"
                 }
@@ -637,7 +641,7 @@ useEffect(() => {
                   </p>
                 </div>
               ) : (
-                <div className="space-y-3">
+                <div className="space-y-3 pb-4">
                   {todos.map((item, index) => (
                     <TodoItem
                     key={`${item.type}-${item.task_id}-${item.subtask_id || index}`}
@@ -651,12 +655,13 @@ useEffect(() => {
 
             {/* FOOTER */}
             <div
-                className={`
-                  px-5 py-4
-                  border-t
-                  flex
-                  justify-between
-                  items-center
+              className={`
+                px-5 py-4 pb-safe
+                border-t
+                flex
+                justify-between
+                items-center
+                shrink-0
                   ${
                     isDark
                       ? "bg-slate-950 border-slate-800"
