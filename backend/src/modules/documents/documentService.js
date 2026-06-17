@@ -390,7 +390,7 @@ const fileName = file
   ? safeFileName(decodeFileName(file.originalname))
   : null;
 const filePath = file
-  ? `/uploads/${file.filename}`
+  ? `/uploads/documents/${file.filename}`
   : null;
 
 const fileType = file
