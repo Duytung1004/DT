@@ -48,6 +48,9 @@ const getMonthKey = (value) => {
 
 export default function Archives() {
   const [records, setRecords] = useState([]);
+  const user = JSON.parse(
+  localStorage.getItem("user") || "{}"
+);
   const [activeFolder, setActiveFolder] = useState({
     type: "all",
     value: "all",
@@ -166,7 +169,28 @@ export default function Archives() {
           file_name: doc.file_name,
         }));
 
-      setRecords([...taskArchives, ...documentArchives]);
+      let archives = [
+  ...taskArchives,
+  ...documentArchives,
+];
+
+// Admin, Lãnh đạo, Văn thư, Chánh VP
+const canViewAll = [
+  "admin",
+  "lanh_dao",
+  "van_thu",
+  "truong_phong",
+].includes(user.role);
+
+if (!canViewAll) {
+  archives = archives.filter(
+    (item) =>
+      item.unit_name === user.unit_name ||
+      item.assignee_name === user.full_name
+  );
+}
+
+setRecords(archives);
     } catch (err) {
       console.log("FETCH ARCHIVES ERROR:", err);
       setRecords([]);
@@ -751,87 +775,258 @@ export default function Archives() {
   <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
     <div
       className={`
-        w-full max-w-3xl rounded-3xl p-6
-        ${isDark ? "bg-slate-900 text-white" : "bg-white"}
+        w-full max-w-4xl
+        rounded-3xl
+        overflow-hidden
+        shadow-2xl
+        ${
+          isDark
+            ? "bg-slate-900 text-white"
+            : "bg-white text-gray-900"
+        }
       `}
     >
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-bold">
-          Chi tiết hồ sơ #{selectedArchive.raw_id}
-        </h2>
+      {/* HEADER */}
+      <div
+        className={`
+          px-6 py-5
+          border-b
+          flex items-center justify-between
+          ${
+            isDark
+              ? "border-slate-800"
+              : "border-gray-200"
+          }
+        `}
+      >
+        <div>
+          <h2 className="text-xl font-bold">
+            Hồ sơ #{selectedArchive.raw_id}
+          </h2>
+
+          <p className="text-sm opacity-60 mt-1">
+            {selectedArchive.type_label}
+          </p>
+        </div>
 
         <button
           onClick={() => setSelectedArchive(null)}
-          className="px-3 py-2 rounded-xl bg-red-500 text-white"
+          className="px-4 py-2 rounded-xl bg-red-500 text-white"
         >
           Đóng
         </button>
       </div>
 
-      <div className="space-y-4">
-        <div>
-          <strong>Tiêu đề:</strong>
-          <p>{selectedArchive.title}</p>
+      {/* BODY */}
+      <div className="p-6 grid md:grid-cols-2 gap-5">
+
+        <div
+          className={`
+            rounded-2xl
+            p-4
+            border
+            ${
+              isDark
+                ? "border-slate-800 bg-slate-950"
+                : "border-gray-200 bg-gray-50"
+            }
+          `}
+        >
+          <p className="text-xs opacity-60">
+            Tiêu đề
+          </p>
+
+          <p className="font-semibold mt-1">
+            {selectedArchive.title}
+          </p>
         </div>
 
-        <div>
-          <strong>Mô tả:</strong>
-          <p>{selectedArchive.description || "Không có mô tả"}</p>
+        <div
+          className={`
+            rounded-2xl
+            p-4
+            border
+            ${
+              isDark
+                ? "border-slate-800 bg-slate-950"
+                : "border-gray-200 bg-gray-50"
+            }
+          `}
+        >
+          <p className="text-xs opacity-60">
+            Phòng ban
+          </p>
+
+          <p className="font-semibold mt-1">
+            {selectedArchive.unit_name}
+          </p>
         </div>
 
-        <div>
-          <strong>Loại hồ sơ:</strong>
-          <p>{selectedArchive.type_label}</p>
+        <div
+          className={`
+            rounded-2xl
+            p-4
+            border
+            ${
+              isDark
+                ? "border-slate-800 bg-slate-950"
+                : "border-gray-200 bg-gray-50"
+            }
+          `}
+        >
+          <p className="text-xs opacity-60">
+            Người phụ trách
+          </p>
+
+          <p className="font-semibold mt-1">
+            {selectedArchive.assignee_name}
+          </p>
         </div>
 
-        <div>
-          <strong>Phòng ban:</strong>
-          <p>{selectedArchive.unit_name}</p>
+        <div
+          className={`
+            rounded-2xl
+            p-4
+            border
+            ${
+              isDark
+                ? "border-slate-800 bg-slate-950"
+                : "border-gray-200 bg-gray-50"
+            }
+          `}
+        >
+          <p className="text-xs opacity-60">
+            Ngày lưu trữ
+          </p>
+
+          <p className="font-semibold mt-1">
+            {formatDate(
+              selectedArchive.archived_at
+            )}
+          </p>
         </div>
 
-        <div>
-          <strong>Người phụ trách:</strong>
-          <p>{selectedArchive.assignee_name}</p>
+        <div
+          className={`
+            rounded-2xl
+            p-4
+            border
+            ${
+              isDark
+                ? "border-slate-800 bg-slate-950"
+                : "border-gray-200 bg-gray-50"
+            }
+          `}
+        >
+          <p className="text-xs opacity-60">
+            Trạng thái
+          </p>
+
+          <p className="font-semibold mt-1">
+            {getStatusLabel(
+              selectedArchive.status_name
+            )}
+          </p>
         </div>
 
-        <div>
-          <strong>Ngày lưu trữ:</strong>
-          <p>{formatDate(selectedArchive.archived_at)}</p>
+        <div
+          className={`
+            rounded-2xl
+            p-4
+            border
+            ${
+              isDark
+                ? "border-slate-800 bg-slate-950"
+                : "border-gray-200 bg-gray-50"
+            }
+          `}
+        >
+          <p className="text-xs opacity-60">
+            Loại hồ sơ
+          </p>
+
+          <p className="font-semibold mt-1">
+            {selectedArchive.type_label}
+          </p>
         </div>
+      </div>
 
-        <div>
-  <strong>Trạng thái:</strong>
-  <p>{getStatusLabel(selectedArchive.status_name)}</p>
-</div>
-        <div>
-  <strong>Tài liệu đính kèm:</strong>
+      {/* MÔ TẢ */}
+      <div className="px-6 pb-4">
+        <div
+          className={`
+            rounded-2xl
+            p-4
+            border
+            ${
+              isDark
+                ? "border-slate-800 bg-slate-950"
+                : "border-gray-200 bg-gray-50"
+            }
+          `}
+        >
+          <p className="text-xs opacity-60 mb-2">
+            Mô tả
+          </p>
 
-  {selectedArchive.file_path ? (
-    <button
-      onClick={() => openFile(selectedArchive.file_path)}
-      className={`
-        mt-2 px-4 py-2 rounded-xl
-        flex items-center gap-2
-        ${
-          isDark
-            ? "bg-blue-600 hover:bg-blue-500 text-white"
-            : "bg-blue-500 hover:bg-blue-600 text-white"
-        }
-      `}
-    >
-      <Paperclip size={16} />
-      {selectedArchive.file_name || "Mở file đính kèm"}
-    </button>
-  ) : (
-    <p className="opacity-60 mt-1">
-      Không có file đính kèm
-    </p>
-  )}
-</div>
+          <p>
+            {selectedArchive.description ||
+              "Không có mô tả"}
+          </p>
+        </div>
+      </div>
+
+      {/* FILE */}
+      <div className="px-6 pb-6">
+        <div
+          className={`
+            rounded-2xl
+            p-4
+            border
+            ${
+              isDark
+                ? "border-slate-800 bg-slate-950"
+                : "border-gray-200 bg-gray-50"
+            }
+          `}
+        >
+          <p className="text-xs opacity-60 mb-3">
+            Tài liệu đính kèm
+          </p>
+
+          {selectedArchive.file_path ? (
+            <button
+              onClick={() =>
+                openFile(
+                  selectedArchive.file_path
+                )
+              }
+              className={`
+                px-4 py-2
+                rounded-xl
+                flex items-center gap-2
+                ${
+                  isDark
+                    ? "bg-blue-600 hover:bg-blue-500 text-white"
+                    : "bg-blue-500 hover:bg-blue-600 text-white"
+                }
+              `}
+            >
+              <Paperclip size={16} />
+              {selectedArchive.file_name ||
+                "Mở file"}
+            </button>
+          ) : (
+            <p className="opacity-60">
+              Không có tài liệu đính kèm
+            </p>
+          )}
+        </div>
       </div>
     </div>
   </div>
 )}
+
     </div>
   );
 }
