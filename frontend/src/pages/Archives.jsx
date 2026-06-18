@@ -776,8 +776,9 @@ setRecords(archives);
     <div
       className={`
         w-full max-w-4xl
+        max-h-[90vh]
+        overflow-y-auto
         rounded-3xl
-        overflow-hidden
         shadow-2xl
         ${
           isDark
@@ -801,8 +802,8 @@ setRecords(archives);
       >
         <div>
           <h2 className="text-xl font-bold">
-            Hồ sơ #{selectedArchive.raw_id}
-          </h2>
+  Chi tiết hồ sơ #{selectedArchive.raw_id}
+</h2>
 
           <p className="text-sm opacity-60 mt-1">
             {selectedArchive.type_label}
@@ -811,7 +812,13 @@ setRecords(archives);
 
         <button
           onClick={() => setSelectedArchive(null)}
-          className="px-4 py-2 rounded-xl bg-red-500 text-white"
+          className="
+px-4 py-2
+rounded-xl
+bg-red-500 hover:bg-red-600
+text-white
+transition
+"
         >
           Đóng
         </button>
@@ -836,7 +843,7 @@ setRecords(archives);
             Tiêu đề
           </p>
 
-          <p className="font-semibold mt-1">
+          <p className="font-semibold mt-1 break-words">
             {selectedArchive.title}
           </p>
         </div>
@@ -922,11 +929,20 @@ setRecords(archives);
             Trạng thái
           </p>
 
-          <p className="font-semibold mt-1">
-            {getStatusLabel(
-              selectedArchive.status_name
-            )}
-          </p>
+          <span
+  className="
+  inline-flex
+  px-3 py-1
+  rounded-full
+  text-sm
+  bg-green-100
+  text-green-700
+  "
+>
+  {getStatusLabel(
+    selectedArchive.status_name
+  )}
+</span>
         </div>
 
         <div
@@ -969,10 +985,10 @@ setRecords(archives);
             Mô tả
           </p>
 
-          <p>
-            {selectedArchive.description ||
-              "Không có mô tả"}
-          </p>
+          <p className="whitespace-pre-wrap leading-7">
+  {selectedArchive.description ||
+    "Không có mô tả"}
+</p>
         </div>
       </div>
 
@@ -1013,8 +1029,8 @@ setRecords(archives);
               `}
             >
               <Paperclip size={16} />
-              {selectedArchive.file_name ||
-                "Mở file"}
+              📎 {selectedArchive.file_name ||
+  "Mở file"}
             </button>
           ) : (
             <p className="opacity-60">
